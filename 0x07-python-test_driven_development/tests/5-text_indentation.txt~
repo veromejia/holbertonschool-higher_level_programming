@@ -1,0 +1,37 @@
+The ``5-text_indentation`` module
+======================
+
+Using ``text_identation``
+-------------------
+Import file
+>>> text_indentation = __import__('5-text_indentation').text_indentation
+
+now use it:
+    >>> text_indentation("adipiscing elit. Quonam modo?")
+    adipiscing elit.
+    <BLANKLINE>
+    Quonam modo?
+    <BLANKLINE>
+
+    >>> text_indentation("igitur ne illud quidem. Fortasse id optimum, sed ubi illud:")
+    igitur ne illud quidem.$
+    <BLANKLINE>
+    Fortasse id optimum, sed ubi illud:$
+    <BLANKLINE>
+
+    >>> text_indentation(123)
+    Traceback (most recent call last):
+    TypeError: text must be a string
+
+    >>> text_indentation("    hello")
+    hello
+
+    >>> text_indentation("world      ")
+    world
+
+    >>> text_indentation("")
+
+    >>> text_indentation(".:?")
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
