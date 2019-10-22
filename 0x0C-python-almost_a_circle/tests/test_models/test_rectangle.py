@@ -235,7 +235,7 @@ class TestRectangle(unittest.TestCase):
 
     #----task5
     def test_display(self):
-        """testing for display"""
+        """testing for display without x and y arguments"""
         output = StringIO()
         with contextlib.redirect_stdout(output):
             r = Rectangle(4, 3)
@@ -259,3 +259,43 @@ class TestRectangle(unittest.TestCase):
         output = "[Rectangle] (2) 1/0 - 2/3"
         self.assertEqual(str(r), output)
 
+    #-----task7
+    def test_update_display(self):
+        """testing for display with x and y arguments"""
+        output = StringIO()
+        with contextlib.redirect_stdout(output):
+            r = Rectangle(4, 3, 1, 2)
+            r.display()
+            self.assertEqual(output.getvalue(), "\n\n ####\n ####\n ####\n")
+
+        output = StringIO()
+        with contextlib.redirect_stdout(output):
+            r = Rectangle(4, 3, 0, 0)
+            r.display()
+            self.assertEqual(output.getvalue(), "####\n####\n####\n")
+
+    #-----task8
+    def test_update(self):
+        """testing the public method update"""
+        r = Rectangle(10, 10, 10, 10)
+        r.update(1)
+        self.assertEqual(r.__str__(), "[Rectangle] (1) 10/10 - 10/10")
+        r.update(89, 2)
+        self.assertEqual(r.__str__(), "[Rectangle] (89) 10/10 - 2/10")
+        r.update(89, 2, 3)
+        self.assertEqual(r.__str__(), "[Rectangle] (89) 10/10 - 2/3")
+        r.update(89, 2, 3, 4)
+        self.assertEqual(r.__str__(), "[Rectangle] (89) 4/10 - 2/3")
+        r.update(89, 2, 3, 4, 5)
+        self.assertEqual(r.__str__(), "[Rectangle] (89) 4/5 - 2/3")
+
+    #-----task9
+    def test_kwargs(self):
+        """testing kwargs in funcion update"""
+        r = Rectangle (10, 10, 10, 10)
+        r.update(height=1)
+        self.assertEqual(r.__str__(), "[Rectangle] (1) 10/10 - 10/1")
+        r.update(width=1, x=2)
+        self.assertEqual(r.__str__(), "[Rectangle] (1) 2/10 - 1/1")
+        r.update(y=1, width=2, x=3, id=89)
+        self.assertEqual(r.__str__(), "[Rectangle] (89) 3/1 - 2/1")
