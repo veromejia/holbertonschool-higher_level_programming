@@ -3,7 +3,8 @@
 
 import sys
 import unittest
-import io
+import contextlib
+from io import StringIO
 from models.base import Base
 from models.rectangle import Rectangle
 
@@ -232,5 +233,29 @@ class TestRectangle(unittest.TestCase):
         r.height = 9
         self.assertEqual(r.area(), 90)
 
-    #--task5
-    
+    #----task5
+    def test_display(self):
+        """testing for display"""
+        output = StringIO()
+        with contextlib.redirect_stdout(output):
+            r = Rectangle(4, 3)
+            r.display()
+            self.assertEqual(output.getvalue(), "####\n####\n####\n")
+
+        output = StringIO()
+        with contextlib.redirect_stdout(output):
+            r = Rectangle(1, 3)
+            r.display()
+            self.assertEqual(output.getvalue(), "#\n#\n#\n")
+
+    #-----task6
+    def test_str(self):
+        """testing for str method"""
+        r = Rectangle(2, 3)
+        output = "[Rectangle] (1) 0/0 - 2/3"
+        self.assertEqual(str(r), output)
+
+        r = Rectangle(2, 3, 1)
+        output = "[Rectangle] (2) 1/0 - 2/3"
+        self.assertEqual(str(r), output)
+
