@@ -59,8 +59,8 @@ class test_base(unittest.TestCase):
 
     def test_dict_id(self):
         """test base id, with dict argument"""
-        b = Base({12:13})
-        self.assertEqual(b.id, {12:13})
+        b = Base({12: 13})
+        self.assertEqual(b.id, {12: 13})
 
     def test_type(self):
         """test for type."""

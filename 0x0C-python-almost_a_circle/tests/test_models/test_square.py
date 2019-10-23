@@ -14,7 +14,7 @@ class TestRectangle(unittest.TestCase):
     def setUp(Self):
         Base._Base__nb_objects = 0
 
-    #-----task10-11
+    # -----task10-11
     def test_isinstance(self):
         """Test if Square is instance of rectangle"""
         s1 = Square(4)
@@ -97,9 +97,10 @@ class TestRectangle(unittest.TestCase):
         self.assertEqual("y must be an integer", str(e.exception))
 
         with self.assertRaises(TypeError) as e:
-            r = Square(5, 10, 15, 20, 25, )
-            self.assertEqual(str(e.exception)," __init__() takes from 2 to \
+            r = Square(5, 10, 15, 20, 25)
+            self.assertEqual(str(e.exception), " __init__() takes from 2 to \
                              5 positional arguments but 6 were given")
+
     def test_float(self):
         """Testing strings in every argument."""
         with self.assertRaises(TypeError) as e:
@@ -196,3 +197,37 @@ class TestRectangle(unittest.TestCase):
         r.width = 10
         r.height = 10
         self.assertEqual(r.area(), 100)
+
+    # -----task12
+    def test_update(self):
+        """testing the public method update"""
+        r = Square(10, 10, 10, 10)
+        r.update(1)
+        self.assertEqual(r.__str__(), "[Square] (1) 10/10 - 10")
+        r.update(89, 2)
+        self.assertEqual(r.__str__(), "[Square] (89) 10/10 - 2")
+        r.update(89, 2, 3)
+        self.assertEqual(r.__str__(), "[Square] (89) 3/10 - 2")
+        r.update(89, 2, 3, 4, 5)
+        self.assertEqual(r.__str__(), "[Square] (89) 3/4 - 2")
+
+    def test_kwargs(self):
+        """testing kwargs in funcion update"""
+        r = Square(10, 10, 10, 10)
+        r.update(width=1)
+        self.assertEqual(r.__str__(), "[Square] (10) 10/10 - 10")
+        r.update(width=1, x=2)
+        self.assertEqual(r.__str__(), "[Square] (10) 2/10 - 10")
+        r.update(y=1, width=2, x=3, id=89)
+        self.assertEqual(r.__str__(), "[Square] (89) 3/1 - 10")
+
+    # -----task14
+    def test_dictionary(self):
+        """Test to_dictionary method."""
+        r = Square(10, 2, 1)
+        r_dictionary = {'id': 1, 'x': 2, 'size': 10, 'y': 1}
+        self.assertEqual(r.to_dictionary(), r_dictionary)
+
+        r = Square(10, 15)
+        r_d = {'id': 2, 'x': 15, 'size': 10, 'y': 0}
+        self.assertEqual(r.to_dictionary(), r_d)
