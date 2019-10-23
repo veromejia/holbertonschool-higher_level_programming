@@ -175,40 +175,17 @@ class test_base(unittest.TestCase):
                ' {"id": 6, "size": 7, "x": 9, "y": 1}]')
         with open("Square.json", "r") as f:
             self.assertEqual(len(f.read()), len(res))
+
         Square.save_to_file(None)
         res = "[]"
         with open("Square.json", "r") as f:
             self.assertEqual(f.read(), res)
         os.remove("Square.json")
+
         Square.save_to_file([])
         with open("Square.json", "r") as f:
             self.assertEqual(f.read(), res)
         os.remove("Square.json")
-
-    # -----task16-17
-    def test_from_json_no_arg(self):
-        with self.assertRaises(TypeError):
-            Base.from_json_string()
-
-        with self.assertRaises(TypeError):
-            Base.from_json_string(1, 1)
-
-        self.assertEqual([], Base.from_json_string(None))
-
-        with self.assertRaises(TypeError) as e:
-            Base.from_json_string(1)
-
-        with self.assertRaises(TypeError) as e:
-            Base.from_json_string([1, 2, 3])
-        msg = "the JSON object must be str, bytes or bytearray, not 'list'"
-        self.assertEqual(msg, str(e.exception))
-
-        with self.assertRaises(TypeError) as e:
-            Base.from_json_string(1.0)
-        msg = "object of type 'float' has no len()"
-        self.assertEqual(msg, str(e.exception))
-
-        "the JSON object must be str, bytes or bytearray, not 'list'"
 
     # -----task 18
     def dictionary(self):
@@ -247,5 +224,7 @@ class test_base(unittest.TestCase):
         self.assertEqual(str(li[0]), str(lo[0]))
         self.assertNotEqual(id(li[1]), id(lo[1]))
         self.assertEqual(str(li[1]), str(lo[1]))
+
+
 if __name__ == "__main__":
     unittest.main()
