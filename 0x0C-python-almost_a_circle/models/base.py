@@ -4,6 +4,7 @@
 
 import json
 import os
+import csv
 
 
 class Base:
@@ -60,6 +61,37 @@ class Base:
     def load_from_file(cls):
         """returns a list of instances"""
         my_file = cls.__name__ + ".json"
+
+        try:
+            with open(my_file, 'r', encoding="UTF8") as f:
+                element = cls.from_json_string(f.read())
+        except:
+            return []
+
+        my_list = []
+
+        for i in element:
+            tmp = cls.create(**i)
+            my_list.append(tmp)
+
+        return my_list
+
+    @classmethod
+    def save_to_file_csv(cls, list_objs):
+        """serializes in CSV:"""
+        my_file = cls.__name__ + ".csv"
+
+        my_list = []
+        if list_objs is not None:
+            for i in list_objs:
+                my_list.append(cls.to_dictionary(i))
+        with open(my_file, 'w') as f:
+            f.write(cls.to_json_string(my_list))
+
+    @classmethod
+    def load_from_file_csv(cls):
+        """deserializes in CSV"""
+        my_file = cls.__name__ + ".csv"
 
         try:
             with open(my_file, 'r', encoding="UTF8") as f:
