@@ -82,6 +82,7 @@ class test_base(unittest.TestCase):
         with self.assertRaises(AttributeError):
             print(Base(12).__nb_instances)
 
+    # -----task 15
     def test_json_none(self):
         """test for none in to_json_string."""
         js = Base.to_json_string(None)
@@ -163,6 +164,7 @@ class test_base(unittest.TestCase):
         Rectangle.save_to_file([])
         with open("Rectangle.json", "r") as f:
             self.assertEqual(f.read(), res)
+        os.remove("Rectangle.json")
 
     def test_save_valid_file(self):
         """Test class method save_to_file with normal types."""
@@ -181,6 +183,69 @@ class test_base(unittest.TestCase):
         Square.save_to_file([])
         with open("Square.json", "r") as f:
             self.assertEqual(f.read(), res)
+        os.remove("Square.json")
 
+    # -----task16-17
+    def test_from_json_no_arg(self):
+        with self.assertRaises(TypeError):
+            Base.from_json_string()
+
+        with self.assertRaises(TypeError):
+            Base.from_json_string(1, 1)
+
+        self.assertEqual([], Base.from_json_string(None))
+
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string(1)
+
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string([1, 2, 3])
+        msg = "the JSON object must be str, bytes or bytearray, not 'list'"
+        self.assertEqual(msg, str(e.exception))
+
+        with self.assertRaises(TypeError) as e:
+            Base.from_json_string(1.0)
+        msg = "object of type 'float' has no len()"
+        self.assertEqual(msg, str(e.exception))
+
+        "the JSON object must be str, bytes or bytearray, not 'list'"
+
+    # -----task 18
+    def dictionary(self):
+        r1 = Rectangle(3, 5, 1)
+        r1_dictionary = r1.to_dictionary()
+        r2 = Rectangle.create(**r1_dictionary)
+        self.assertEqual(str(r1), str(r2))
+        self.assertFalse(r1 is r2)
+        self.assertFalse(r1 == r2)
+
+        s1 = Square(3, 5)
+        s1_dictionary = s1.to_dictionary()
+        s2 = Square.create(**s1_dictionary)
+        self.assertEqual(str(s1), str(s2))
+        self.assertFalse(s1 is s2)
+        self.assertFalse(s1 == s2)
+
+    # -----task19
+    def test_load_file(self):
+        r1 = Rectangle(10, 7, 2, 8)
+        r2 = Rectangle(2, 4)
+        li = [r1, r2]
+        Rectangle.save_to_file(li)
+        lo = Rectangle.load_from_file()
+        self.assertNotEqual(id(li[0]), id(lo[0]))
+        self.assertEqual(str(li[0]), str(lo[0]))
+        self.assertNotEqual(id(li[1]), id(lo[1]))
+        self.assertEqual(str(li[1]), str(lo[1]))
+
+        s1 = Square(5)
+        s2 = Square(7, 9, 1)
+        li = [s1, s2]
+        Square.save_to_file(li)
+        lo = Square.load_from_file()
+        self.assertNotEqual(id(li[0]), id(lo[0]))
+        self.assertEqual(str(li[0]), str(lo[0]))
+        self.assertNotEqual(id(li[1]), id(lo[1]))
+        self.assertEqual(str(li[1]), str(lo[1]))
 if __name__ == "__main__":
     unittest.main()

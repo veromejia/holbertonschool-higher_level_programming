@@ -231,3 +231,5 @@ class TestRectangle(unittest.TestCase):
         r = Square(10, 15)
         r_d = {'id': 2, 'x': 15, 'size': 10, 'y': 0}
         self.assertEqual(r.to_dictionary(), r_d)
+if __name__ == '__main__':
+    unittest.main()

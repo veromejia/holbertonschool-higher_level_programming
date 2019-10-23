@@ -316,3 +316,6 @@ class TestRectangle(unittest.TestCase):
         r = Rectangle(20, 25)
         r_dictionary = {'width': 20, 'height': 25, 'x': 0, 'id': 3, 'y': 0}
         self.assertEqual(r.to_dictionary(), r_dictionary)
+
+if __name__ == '__main__':
+    unittest.main()
