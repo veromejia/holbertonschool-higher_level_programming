@@ -9,10 +9,10 @@ from sys import argv
 if __name__ == "__main__":
     if len(argv) > 1:
         q = argv[1]
-        q_data = {'q': q}
     else:
         q = ""
 
+    q_data = {'q': q}
     r = requests.post("http://0.0.0.0:5000/search_user", data=q_data)
     try:
         my_dic = r.json()
